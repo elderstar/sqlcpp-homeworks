@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS  musical_genres (id SERIAL NOT NULL , title VARCHAR(255) NOT NULL , PRIMARY KEY (id));
+CREATE TABLE IF NOT EXISTS  musicians (id SERIAL NOT NULL , title VARCHAR(255) NOT NULL , PRIMARY KEY (id));
+CREATE TABLE IF NOT EXISTS  albums (id SERIAL NOT NULL , title VARCHAR(255) NOT NULL , year_release smallint NOT NULL , PRIMARY KEY (id));
+CREATE TABLE IF NOT EXISTS  tracks (
+id SERIAL NOT NULL ,
+ title VARCHAR(255) NOT NULL ,
+ album_id int NOT NULL ,
+ duration TIME NOT NULL ,
+FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE CASCADE ON UPDATE CASCADE, PRIMARY KEY (id)
+);
+CREATE TABLE IF NOT EXISTS  collections (id SERIAL NOT NULL , title VARCHAR(255) NOT NULL , year_release INT NOT NULL , PRIMARY KEY (id));
+CREATE TABLE IF NOT EXISTS  musicians_to_genres (
+musiciant_id int NOT NULL,
+genre_id int NOT NULL,
+FOREIGN KEY (musiciant_id) REFERENCES musicians(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (genre_id) REFERENCES musical_genres(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+CREATE TABLE IF NOT EXISTS  musicians_to_albums (
+musiciant_id int NOT NULL,
+album_id int NOT NULL,
+FOREIGN KEY (musiciant_id) REFERENCES musicians(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+CREATE TABLE IF NOT EXISTS  tracks_to_collections (
+track_id int NOT NULL,
+collection_id int NOT NULL,
+FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
